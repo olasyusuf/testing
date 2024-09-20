@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            // Wait for DOM content to load
+            document.addEventListener('DOMContentLoaded', function() {
+
+                // Get element with class "correct"
+                let correct = document.querySelector('.correct');
+                // Get all elements with class "incorrect"
+                let incorrects = document.querySelectorAll(".incorrect");
+
+                // Add event listener to correct button
+                correct.addEventListener('click', function() {
+
+                    for (let i = 0; i < incorrects.length; i++) {
+                        incorrects[i].style.backgroundColor = '#d9edff';
+                    }
+                    // Set background color to green
+                    correct.style.backgroundColor = 'Green';
+                    // Go to parent element of correct button and find the first element with class "feedback" which has that parent
+                    correct.parentElement.querySelector('.feedback').innerHTML = 'Correct! <img width="25" height="25" src="https://img.icons8.com/color/25/checkmark--v1.png" alt="checkmark--v1"/>';
+                });
+                
+                // When any incorrect answer is clicked, change color to red.
+                for (let i = 0; i < incorrects.length; i++) {
+                             
+                    incorrects[i].addEventListener('click', function() {
+                        // Set background color to red
+                       for (let j = 0; j < incorrects.length; j++) {
+                            if (i == j)
+                                incorrects[j].style.backgroundColor = 'Red';
+                            else
+                                incorrects[j].style.backgroundColor = '#d9edff';
+                       }
+                        // Go to parent element of correct button and find the first element with class "feedback" which has that parent
+                        incorrects[i].parentElement.querySelector('.feedback').innerHTML = 'Incorrect <img width="25" height="25" src="https://img.icons8.com/emoji/25/cross-mark-emoji.png" alt="cross-mark-emoji"/>';
+                        correct.style.backgroundColor = '#d9edff';
+                    });    
+                } 
+
+                /* let buttons = document.querySelectorAll(".incorrect");
+
+                buttons.forEach((btn) => {
+                    btn.addEventListener("click", (event) => {
+                        
+                            buttons.forEach((s) => {
+                                if ( s == btn)
+                                    s.style.backgroundColor = 'Red';
+                                else
+                                    s.style.backgroundColor = '#d9edff';
+                            });
+                        
+                        btn.parentElement.querySelector('.feedback').innerHTML = 'Incorrect <img width="25" height="25" src="https://img.icons8.com/emoji/25/cross-mark-emoji.png" alt="cross-mark-emoji"/>';
+                        correct.style.backgroundColor = '#d9edff';
+                    });
+                }); */
+
+                // Check free response submission
+                document.querySelector('#check').addEventListener('click', function() {
+                    let input = document.querySelector('#country');
+                    if (input.value.toUpperCase() === 'INDIA') {
+                        input.style.backgroundColor = 'green';
+                        input.parentElement.querySelector('.feedback').innerHTML = 'Correct! <img width="20" height="20" src="https://img.icons8.com/color/20/checkmark--v1.png" alt="checkmark--v1"/>';
+                    }
+                    else {
+                        input.style.backgroundColor = 'red';
+                        input.parentElement.querySelector('.feedback').innerHTML = 'Incorrect <img width="20" height="20" src="https://img.icons8.com/emoji/20/cross-mark-emoji.png" alt="cross-mark-emoji"/>';
+                    }
+                });
+
+
+                // 3 question. 
+                // Get element with class "rights"
+                let rights = document.querySelectorAll(".right");
+                // Get all elements with class "incorrect"
+                let wrongs = document.querySelectorAll(".wrong");
+                let right_count = 0;
+                let wrong_count = 0;
+                let count = 0;
+
+                let inputs = document.querySelector('input');
+
+                // Set all checkboxes state to false
+                for (var i=0; i<inputs.length; i++)  {
+                    if (inputs[i].type === 'checkbox')   {
+                        inputs[i].checked = false;
+                    }
+                }
+
+                // Add event listener to right button
+                for (let i = 0; i < rights.length; i++) {
+                    rights[i].addEventListener('click', function() {
+
+                        if (rights[i].checked === true){
+                            rights[i].nextSibling.style.backgroundColor = 'green';
+                            ++right_count;
+                            ++count;
+                        }
+                        else {             
+                            rights[i].nextSibling.style.backgroundColor = '#d9edff';                                                      
+                            --right_count;
+                            --count;
+                        }
+
+                        if(count === 0){
+                            rights[i].parentElement.querySelector('.feedback').innerHTML = '';
+                        }
+                        else if (count === 2 && right_count === 2){
+                            // Go to parent element of correct button and find the first element with class "feedback" which has that parent
+                            rights[i].parentElement.querySelector('.feedback').innerHTML = 'Correct! <img width="25" height="25" src="https://img.icons8.com/color/25/checkmark--v1.png" alt="checkmark--v1"/>';     
+                        }
+                        else{
+                            rights[i].parentElement.querySelector('.feedback').innerHTML = 'Incorrect <img width="25" height="25" src="https://img.icons8.com/emoji/25/cross-mark-emoji.png" alt="cross-mark-emoji"/>';
+                        }
+                    });
+                }    
+
+                // Add event listener to wrong button
+                for (let i = 0; i < wrongs.length; i++) {
+
+                    wrongs[i].addEventListener('click', function() {
+                        if (wrongs[i].checked === true){
+                            wrongs[i].nextSibling.style.backgroundColor = 'red';
+                            ++wrong_count;
+                            ++count;
+                        }
+                        else {
+                            wrongs[i].nextSibling.style.backgroundColor = '#d9edff';
+                            --wrong_count;
+                            --count;
+                        }
+     
+                        if(count === 0){
+                            wrongs[i].parentElement.querySelector('.feedback').innerHTML = '';
+                        }
+                        else if (count === 2 && right_count === 2){
+                            // Go to parent element of correct button and find the first element with class "feedback" which has that parent
+                            wrongs[i].parentElement.querySelector('.feedback').innerHTML = 'Correct! <img width="25" height="25" src="https://img.icons8.com/color/25/checkmark--v1.png" alt="checkmark--v1"/>';     
+                        }
+                        else if (count > 2 || wrong_count > 0){
+                            // Go to parent element of correct button and find the first element with class "feedback" which has that parent
+                            wrongs[i].parentElement.querySelector('.feedback').innerHTML = 'Incorrect <img width="25" height="25" src="https://img.icons8.com/emoji/25/cross-mark-emoji.png" alt="cross-mark-emoji"/>';
+                        }    
+                    });      
+                }       
+                
+                document.querySelector('.reset').addEventListener('click', function() {
+                    // Set all checkboxes state to false
+                    let inputs = document.querySelectorAll('input');
+                    let buttons = document.querySelectorAll("button");
+                    
+                    for (var i=0; i<inputs.length; i++)  {
+                        
+                        if (inputs[i].type === 'text')   {
+                            inputs[i].value = '';
+                            inputs[i].style.backgroundColor = 'white';
+                        }
+                        else if (inputs[i].type === 'checkbox')   {
+                            inputs[i].checked = false;
+                            inputs[i].nextSibling.style.backgroundColor = '#d9edff';
+                        }
+                        inputs[i].parentElement.querySelector('.feedback').innerHTML = '';
+                    } 
+
+                    for (var i=0; i<buttons.length; i++)  {
+                        buttons[i].style.backgroundColor = '#d9edff';
+                    }
+                    buttons[0].parentElement.querySelector('.feedback').innerHTML = '';
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">  
+            <div class="section control">
+                <label class="reset">Reset All Questions</label>
+            </div>
+
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>What is the motto of Nigeria flag?</h3>
+                <button class="incorrect">A town hall different from bala blue</button>
+                <button class="incorrect">The green-white-green flag</button>
+                <button class="incorrect"> Agriculture, Peace and Unity.</button>
+                <button class="correct">Unity and Faith, Peace and Progress.</button>
+                <button class="incorrect">Giant of Africa</button>
+                <p class="feedback"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>Which country was rumoured to have defeated another country "99 - 1" in a Soccer match?</h3>
+                <input type="text" id="country" />
+                <button id="check">Check Answer</button>
+                <p class="feedback"></p>
+                <!-- <div class="tick"></div> -->
+            </div>
+
+            <div class="section">
+                <h2>Part 3: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>What are the elements that make up water?</h3>
+                <input type="checkbox" class="wrong" /><span>Nitrogen</span>
+                <input type="checkbox" class="wrong" /><span>Iron</span>
+                <input type="checkbox" class="right" /><span>Oxygen</span>
+                <input type="checkbox" class="right" /><span>Hydrogen</span>
+                <input type="checkbox" class="wrong" /><span>Chlorine</span>
+                <p class="feedback"></p>
+            </div>
+        </div>
+        <footer>
+            <!-- <hr /> -->
+            <address>
+                Olas&COPY;2024
+            </address>
+        </footer>
+    </body>
+</html>
